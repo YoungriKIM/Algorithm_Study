@@ -1,9 +1,4 @@
-# baseline_hacking_1 을 튜닝함 > 하는 중
-
-# from google.colab import drive
-# drive.mount('/content/drive')
-
-# train, val 나누기
+# time_check
 
 import pandas as pd
 import numpy as np
