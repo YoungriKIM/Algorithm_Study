@@ -15,7 +15,9 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLRO
 
 # npy 불러와서 x로 지정 + scaling =====================================
 x = np.load('../data/npy/dirty_mnist_train_all.npy').astype('float32')
-x = np.where((x<=252)&(x!=0),0.,x)/255.
+x[100<x] = 253
+x[100>x] = 0
+x = x/255.
 
 print(x.shape)  #(500, 256, 256, 1)
 
@@ -62,7 +64,10 @@ print('loss, acc: ', loss, acc)
 # predict 엑셀로 저장 =====================================
 # all_train 불러오기
 all_test = np.load('../data/npy/dirty_mnist_test_all.npy').astype('float32')
-all_test = np.where((all_test<=252)&(all_test!=0),0.,all_test)/255.
+# all_test = np.where((all_test<=252)&(all_test!=0),0.,all_test)/255.
+all_test[100 < all_test] = 253
+all_test[100 > all_test] = 0
+
 
 y_pred = model.predict(all_test)
 print(y_pred.shape) #(500, 26)
@@ -77,9 +82,12 @@ print(y_pred.head())
 
 # print(subfile.head())
 
-y_pred.to_csv('../data/csv/dacon12/subsave/p2_0209.csv', index=False)
+y_pred.to_csv('../data/csv/dacon12/subsave/p2_0209-2.csv', index=False)
 print('===== save complete =====')
 
 
 # ===============================
 # p2_0209.csv > dacon score : 	0.48086 > 단단히 잘못되고 있눈..너낌~^^
+
+# p2_0209-2.csv
+# loss, acc:  0.6902444362640381 0.0 > dacon score: 0.5334307692

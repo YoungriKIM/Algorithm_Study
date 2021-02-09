@@ -12,17 +12,14 @@ import PIL.Image as pilimg
 import numpy as np
 import pandas as pd
 
-### 500개만 테스트로 해보기 ###
+### 10000개만 테스트로 해보기 ###
 
 # 이미지 불러오기  =====================================
 
 df_train = []
 
-for a in np.arange(0, 500):
-    b = str(a)
-    c = str('0'*(5-len(b)))
-    i = (c+b)               
-    file_path = 'D:/aidata/dacon3/dirty_mnist_2nd/' + str(a).zfill(5) + '.png'
+for a in np.arange(0, 10000):             
+    file_path = 'D:/aidata/dacon12/dirty_mnist_2nd/' + str(a).zfill(5) + '.png'
     image = pilimg.open(file_path)
     pix = np.array(image)
     pix = pd.DataFrame(pix)
@@ -36,7 +33,7 @@ print(type(x))  #<class 'numpy.ndarray'>
 print(x.shape)
 
 # 리쉐잎
-number = 500
+number = 10000
 x_dataset = x.reshape(number, 256, 256, 1)
 
 # npy 저장 전 전처리  =====================================
@@ -50,7 +47,7 @@ print(x_dataset.shape)      # (500, 256, 256, 1)
 # npy저장  =====================================
 # npy 한개 용량 65Kb
 # > 50,000개 일 떄 : 3.25Gb
-np.save('../data/npy/dirty_mnist_train_all.npy', arr=x_dataset)
+np.save('../data/npy/dirty_mnist_train_all(10000).npy', arr=x_dataset)
 print('===== save complete =====')
 
 # 그냥 500개 저장한 용량: 32Mb      > 그냥 저장하고 불러와서 전처리 하기로

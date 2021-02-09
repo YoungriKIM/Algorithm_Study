@@ -1,3 +1,6 @@
+# https://machinelearningmastery.com/multi-label-classification-with-deep-learning/
+# 딥러닝으로 다중라벨분류모델 만들기 공부
+
 # keras_multilabel_exampled 이용해서 만들기!
 
 
