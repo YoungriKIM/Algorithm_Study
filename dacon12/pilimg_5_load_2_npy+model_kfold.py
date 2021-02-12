@@ -1,4 +1,4 @@
-# 이전 파일 가져와서 kfold 적용 해보기 !
+# 이전 파일 가져와서 kfold 적용 해보기 ! > 하는 중 
 
 import PIL.Image as pilimg
 import numpy as np
@@ -74,4 +74,4 @@ for train_index, test_index in kfold.split(x_train):
 print('(ง˙∇˙)ว {오늘 안에 조지고만다!!!]')
 # =============================================
 
-ing
+# ing

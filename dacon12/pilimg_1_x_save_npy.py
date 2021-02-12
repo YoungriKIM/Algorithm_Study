@@ -7,18 +7,22 @@
 # x = np.load('../data/npy/iris_x_data.npy')
 # ==================================================
 
-
 import PIL.Image as pilimg
 import numpy as np
+import cv2
 import pandas as pd
+from tensorflow.keras import preprocessing
+from cv2 import resize
+import matplotlib.pyplot as plt
 
-### 10000개만 테스트로 해보기 ###
+### 50000개만 테스트로 해보기 ###
 
 # 이미지 불러오기  =====================================
 
 df_train = []
+number = 10
 
-for a in np.arange(0, 10000):             
+for a in np.arange(0, number):             
     file_path = 'D:/aidata/dacon12/dirty_mnist_2nd/' + str(a).zfill(5) + '.png'
     image = pilimg.open(file_path)
     pix = np.array(image)
@@ -29,25 +33,48 @@ x = pd.concat(df_train)
 x = x.values
 # 원래 사이즈는 (256,256)
 
-print(type(x))  #<class 'numpy.ndarray'>
-print(x.shape)
+print(type(x))  # <class 'numpy.ndarray'>
+print(x.shape)  # (25600, 256)
 
+# 이미지 전처리 -------------------------------------
+
+#254보다 작고 0이아니면 0으로 만들어주기
+x_df2 = np.where((x <= 254) & (x != 0), 0, x)
+
+# 이미지 팽창
+x_df3 = cv2.dilate(x_df2, kernel=np.ones((2, 2), np.uint8), iterations=1)
+
+# 블러 적용, 노이즈 제거
+x_df4 = cv2.medianBlur(src=x_df3, ksize= 5)
+
+cv2.imshow('1', x_df4)
+cv2.waitKey()
+
+# 이미지 리쉐잎 -------------------------------------
 # 리쉐잎
-number = 10000
-x_dataset = x.reshape(number, 256, 256, 1)
+x_dataset = x_df4.reshape(number, 256, 256, 1)
 
-# npy 저장 전 전처리  =====================================
-# 252아래 특성 0으로 수렴하고 scaling
-# x_dataset = np.where((x_dataset<=252)&(x_dataset!=0),0.,x_dataset)
+print(x_dataset.shape)
 
-print(x_dataset.shape)      # (500, 256, 256, 1)
-# print(x_dataset)
+cv2.imshow('2', x_dataset[0])
+cv2.waitKey()
 
+# 이미지 리사이징 -------------------------------------
+
+img_resize = x_dataset.pilimg.resize((128, 128))            ################## 리사이즈를 못해..리사이즈 하고 저장하고 test도 리사이즈해서 저장하고 모델 돌리기
+
+
+# x_dataset = np.array(x_dataset, dtype=np.uint8)
+
+print(img_resize.shape)
+
+cv2.imshow('3', img_resize[0])
+cv2.waitKey()
 
 # npy저장  =====================================
 # npy 한개 용량 65Kb
 # > 50,000개 일 떄 : 3.25Gb
-np.save('../data/npy/dirty_mnist_train_all(10000).npy', arr=x_dataset)
+np.save('../data/npy/dirty_mnist_train_all(50000)_small.npy', arr=x_dataset)
 print('===== save complete =====')
 
 # 그냥 500개 저장한 용량: 32Mb      > 그냥 저장하고 불러와서 전처리 하기로
