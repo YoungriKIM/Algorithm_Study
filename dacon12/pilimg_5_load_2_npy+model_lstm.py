@@ -17,6 +17,7 @@ from tensorflow.keras.optimizers import Adam
 
 # npy 불러와서 지정 =====================================
 x = np.load('../data/npy/dirty_mnist_train_all(50000).npy')[:100]
+x = x.reshape(100,256,256)
 
 # y 불러와서 지정 =====================================
 y = np.load('../data/npy/dirty_mnist_2nd_answer.npy')[:100]
@@ -72,6 +73,7 @@ print('loss, acc: ', loss, acc)
 # predict 엑셀로 저장 =====================================
 # all_train 불러오기
 all_test = np.load('../data/npy/dirty_mnist_test_all(5000).npy')[:100]
+all_test = all_test.reshape(100,256,256)
 
 # 예측
 y_pred = model.predict(all_test)
@@ -98,3 +100,5 @@ print('===== save complete =====')
 # loss, acc:  0.6902444362640381 0.0 > dacon score: 0.5334307692
 
 # p5_0211_1
+# 모델 lstm으로 수정
+# loss: 0.6837 - acc: 0.0 비슷비슷.. 토치를 독학해야겠음 

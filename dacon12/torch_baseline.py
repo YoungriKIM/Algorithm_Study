@@ -15,8 +15,11 @@ from torchinfo import summary
 
 from torchvision import transforms
 from torchvision.models import resnet50
+from multiprocessing import freeze_support
 
 # 1. 커스텀 데이터셋 만들기
+
+
 
 class MnistDataset(Dataset):
     def __init__(
@@ -92,6 +95,8 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = MnistModel().to(device)
 print(summary(model, input_size=(1, 3, 256, 256), verbose=0))
 
+
+
 # 4. 학습하기
 
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
@@ -118,6 +123,8 @@ for epoch in range(num_epochs):
             acc = (outputs == targets).float().mean()
             print(f'{epoch}: {loss.item():.5f}, {acc.item():.5f}')
 
+            
+
 # 5. 추론하기
 
 submit = pd.read_csv('D:/aidata/dacon12/submission/sample_submission.csv')
@@ -133,5 +140,7 @@ for i, (images, targets) in enumerate(test_loader):
     batch_index = i * batch_size
     submit.iloc[batch_index:batch_index+batch_size, 1:] = \
         outputs.long().squeeze(0).detach().cpu().numpy()
+
+
     
 submit.to_csv('../data/csv/dacon12/torch_01.csv', index=False)
