@@ -1,42 +1,39 @@
-n = 3
-start = 1
-end = 3
-# roads = [[1, 2, 2], [3, 2, 3]]
-# traps = [2]
+from collections import deque
 
-roads = [[1, 2, 1], [3, 2, 1], [2, 4, 1]]
-traps = [2, 3]
+def bfs(q, answer):
+    count = answer
+    while q:
+        v = q.popleft()
+        nowX = v[0]
+        nowY = v[1]
+        count = v[2]
+        for i in range(4):
+            newX = nowX + dx[i]
+            newY = nowY + dy[i]
+            if (0 <= newX < N) and (0 <= newY < M):
+                if tomato[newX][newY] == 0 and tomato[newX][newY] != -1:
+                    tomato[newX][newY] = 1
+                    q.append([newX, newY, count + 1])
+    return count
 
-time = 0
+def check(answer, tomato):
+    for i in range(len(tomato)):
+        for j in range(len(tomato[i])):
+            if tomato[i][j] == 0:
+                return -1
+    return answer
 
-def goto(my, road):
-    my = road[1]
-    time += road[2]
-    print(my)
-    return my
+M, N = map(int, input().split())
+tomato = [list(map(int, input().split())) for _ in range(N)]
+dx = [0, 1, 0, -1]
+dy = [1, 0, -1, 0]
+answer = 0
 
+for i in range(len(tomato)):
+    for j in range(len(tomato[i])):
+        if tomato[i][j] == 1:
+            q.append([i, j, answer])
 
-def find_road(my):
-    uses = [v for v in roads if my == v[0] or my == v[1]]
-    if my in traps:
-        for use in uses:
-            uses.append([use[1], use[0], use[2]])
-            uses = uses[1:]
-    if len(uses) < 2 : result = uses[0]
-    else:
-        for use in uses:
-            if use[0] == my:
-                for z in uses:
-                    if use[1] > z[1] : result = use
-    
-    print(result)
-    return result
+answer = bfs(q, answer)
 
-my = 1
-while True:
-    road = find_road(my)
-    print(road)
-    my = goto(my, road)
-    print(my)
-    if my == end : break
-print(time)
+print(check(answer, tomato))
