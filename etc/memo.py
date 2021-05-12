@@ -1,39 +1,24 @@
+# 참고코드
+
 from collections import deque
 
-def bfs(q, answer):
-    count = answer
+MAX = 100001
+n, k = map(int, input().split())
+array = [0]*MAX
+
+def bfs():
+    q = deque([n])
     while q:
-        v = q.popleft()
-        nowX = v[0]
-        nowY = v[1]
-        count = v[2]
-        for i in range(4):
-            newX = nowX + dx[i]
-            newY = nowY + dy[i]
-            if (0 <= newX < N) and (0 <= newY < M):
-                if tomato[newX][newY] == 0 and tomato[newX][newY] != -1:
-                    tomato[newX][newY] = 1
-                    q.append([newX, newY, count + 1])
-    return count
+        x = q.popleft()
+        if x == k:
+            return array[x]
+        for nx in (x-1, x+1, x*2):
+            if 0 <= nx < MAX and not array[nx]:
+                if nx == x*2 and x != 0:
+                    array[nx] = array[x]
+                    q.appendleft(nx)
+                else:
+                    array[nx] = array[x] + 1
+                    q.append(nx)
 
-def check(answer, tomato):
-    for i in range(len(tomato)):
-        for j in range(len(tomato[i])):
-            if tomato[i][j] == 0:
-                return -1
-    return answer
-
-M, N = map(int, input().split())
-tomato = [list(map(int, input().split())) for _ in range(N)]
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1, 0]
-answer = 0
-
-for i in range(len(tomato)):
-    for j in range(len(tomato[i])):
-        if tomato[i][j] == 1:
-            q.append([i, j, answer])
-
-answer = bfs(q, answer)
-
-print(check(answer, tomato))
+print(bfs())
