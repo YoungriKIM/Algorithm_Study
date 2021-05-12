@@ -1,39 +1,30 @@
+import sys
 from collections import deque
-
-def bfs(q, answer):
-    count = answer
-    while q:
-        v = q.popleft()
-        nowX = v[0]
-        nowY = v[1]
-        count = v[2]
-        for i in range(4):
-            newX = nowX + dx[i]
-            newY = nowY + dy[i]
-            if (0 <= newX < N) and (0 <= newY < M):
-                if tomato[newX][newY] == 0 and tomato[newX][newY] != -1:
-                    tomato[newX][newY] = 1
-                    q.append([newX, newY, count + 1])
-    return count
-
-def check(answer, tomato):
-    for i in range(len(tomato)):
-        for j in range(len(tomato[i])):
-            if tomato[i][j] == 0:
-                return -1
-    return answer
-
-M, N = map(int, input().split())
-tomato = [list(map(int, input().split())) for _ in range(N)]
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1, 0]
-answer = 0
-
-for i in range(len(tomato)):
-    for j in range(len(tomato[i])):
-        if tomato[i][j] == 1:
-            q.append([i, j, answer])
-
-answer = bfs(q, answer)
-
-print(check(answer, tomato))
+ 
+n, m = map(int, sys.stdin.readline().split())
+maze = []
+ 
+for i in range(m):
+    maze.append(sys.stdin.readline())
+ 
+visited = [[-1]*n for _ in range(m)]
+visited[0][0] = 0
+q = deque()
+dx = [1,-1,0,0]
+dy = [0,0,1,-1]
+q.append([0, 0])
+ 
+while q:
+    x, y = q.popleft()
+    for i in range(4):
+        nx, ny = x+dx[i], y+dy[i]
+        if nx>=0 and nx<m and ny >=0 and ny<n:
+            if visited[nx][ny] == -1:
+                if maze[nx][ny] == '0':
+                    q.appendleft([nx, ny])
+                    visited[nx][ny] = visited[x][y]
+                elif maze[nx][ny] == '1':
+                    q.append([nx, ny])
+                    visited[nx][ny] = visited[x][y]+1
+ 
+print(visited[m-1][n-1])
