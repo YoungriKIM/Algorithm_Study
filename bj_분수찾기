@@ -1,0 +1,124 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled0.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyPEu5WmuEVSaugnzeE8P3B0",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/YoungriKIM/Algorithm_Study/blob/MYOWN/bj_%EB%B6%84%EC%88%98%EC%B0%BE%EA%B8%B0\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BaI21jIiC4Ev",
+        "outputId": "0eb544e6-a528-4d72-bdc2-3c8de3255275"
+      },
+      "source": [
+        "# 1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   21\n",
+        "# 1/1  1/2  2/1  3/1  2/2  1/3  1/4  2/3  3/2  4/1  5/1  4/2  3/3  2/4  1/5  1/6  2/5  3/4  4/3  5/2  6/1\n",
+        "\n",
+        "num = int(input())\n",
+        "\n",
+        "first_small = []\n",
+        "first_large = []\n",
+        "for i in range(1, num):\n",
+        "    first_small = []\n",
+        "    for j in range(1, i+1):\n",
+        "        first_small.append(j)\n",
+        "    if i % 2 == 0 :\n",
+        "        first_large.append(first_small)\n",
+        "    else:\n",
+        "        first_large.append(first_small[::-1])\n",
+        "first_large = sum(first_large, [])\n",
+        "\n",
+        "last_small = []\n",
+        "last_large = []\n",
+        "for i in range(1, num):\n",
+        "    last_small = []\n",
+        "    for j in range(1, i+1):\n",
+        "        last_small.append(j)\n",
+        "    if i % 2 != 0 :\n",
+        "        last_large.append(last_small)\n",
+        "    else:\n",
+        "        last_large.append(last_small[::-1])\n",
+        "last_large = sum(last_large, [])\n",
+        "\n",
+        "print('{0}/{1}'.format(first_large[num-1], last_large[num-1]))"
+      ],
+      "execution_count": 41,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "10\n",
+            "4/1\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "I_EDR49lI6pM",
+        "outputId": "393d9195-4e08-4949-c509-f54387684866"
+      },
+      "source": [
+        "X = int(input())\n",
+        "\n",
+        "line = 1\n",
+        "while X > line:\n",
+        "    X -= line\n",
+        "    line += 1\n",
+        "\n",
+        "A = X\n",
+        "B = line - X + 1\n",
+        "if line % 2 == 0:\n",
+        "    a = A\n",
+        "    b = B\n",
+        "else:\n",
+        "    a = B\n",
+        "    b = A\n",
+        "\n",
+        "print('{0}/{1}'.format(a,b))"
+      ],
+      "execution_count": 43,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "14\n",
+            "2/4\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    }
+  ]
+}
