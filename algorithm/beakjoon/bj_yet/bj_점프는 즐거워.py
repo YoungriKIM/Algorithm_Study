@@ -1,6 +1,9 @@
 import sys
-data = list(sys.stdin.readline().split())
 
+data = []
+for line in sys.stdin:
+    data.append(line.split())
+    
 for a_l in data:
     n = int(a_l[0]);a_l = a_l[1:]
     if n == 1 : print('Jolly')
